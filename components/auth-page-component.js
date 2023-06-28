@@ -76,7 +76,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
     }
 
     document.getElementById("login-button").addEventListener("click", () => {
-      setError("");
+      // setError("");
 
       if (isLoginMode) {
         const login = document.getElementById("login-input").value;
