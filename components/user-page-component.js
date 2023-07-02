@@ -1,19 +1,16 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
+import { userLike } from "../helpers.js";
+
 
 export function renderUserPostPageComponent({ appEl }) {
-  // TODO: реализовать рендер постов из api
-  console.log("Актуальный список постов:", posts);
+    // реализован рендер постов из api
+    console.log("Актуальный список постов:", posts);
 
-  /**
-   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-   */
-  
-  // Функция разметки страницы постов из API
-  const postsHtml = posts.map((item) => {
-    return `
+    // Функция разметки страницы постов из API
+    const postsHtml = posts.map((item) => {
+        return `
               <li class="post">
           <div class="post-header" data-user-id="${item.user.id}">
               <img src="${item.user.imageUrl}" class="post-header__user-image">
@@ -23,8 +20,8 @@ export function renderUserPostPageComponent({ appEl }) {
             <img class="post-image" src="${item.imageUrl}">
           </div>
           <div class="post-likes">
-            <button data-post-id="${item.id}" class="like-button">
-              <img src="./assets/images/like-active.svg">
+          <button data-post-id="${item.id}" data-index = "${index}" class="like-button">
+          ${item.isLiked ? `<img src="./assets/images/like-active.svg">` : `<img src="./assets/images/like-not-active.svg">`}
             </button>
             <p class="post-likes-text">
               Нравится: <strong>${item.likes.length}</strong>
@@ -35,12 +32,12 @@ export function renderUserPostPageComponent({ appEl }) {
             ${item.description}
           </p>
           <p class="post-date">
-            ${new Date(item.createdAt)}
+            ${dataFormat(item.createdAt)}
           </p>
           </li>`
-  }).join("");
+    }).join("");
 
-  const appHtml = `
+    const appHtml = `
               <div class="page-container">
                 <div class="header-container"></div>
                 <ul class="posts">
@@ -48,17 +45,18 @@ export function renderUserPostPageComponent({ appEl }) {
                 </ul>
               </div>`;
 
-  appEl.innerHTML = appHtml;
+    appEl.innerHTML = appHtml;
 
-  renderHeaderComponent({
-    element: document.querySelector(".header-container")
-  });
-
-  for (let userEl of document.querySelectorAll(".post-header")) {
-    userEl.addEventListener("click", () => {
-      goToPage(USER_POSTS_PAGE, {
-        userId: userEl.dataset.userId,
-      });
+    renderHeaderComponent({
+        element: document.querySelector(".header-container")
     });
-  }
+
+    for (let userEl of document.querySelectorAll(".post-header")) {
+        userEl.addEventListener("click", () => {
+            goToPage(USER_POSTS_PAGE, {
+                userId: userEl.dataset.userId,
+            });
+        });
+    }
+    userLike(posts);
 }

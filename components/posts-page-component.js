@@ -1,6 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
+import { userLike, dataFormat } from "../helpers.js";
+
+
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
@@ -12,7 +15,11 @@ export function renderPostsPageComponent({ appEl }) {
    */
   
   // Функция разметки страницы постов из API
-  const postsHtml = posts.map((item) => {
+  const postsHtml = posts.map((item, index) => {
+    let activeLike = '';
+    if(item.isLiked){
+      activeLike = '-active-like';
+    } 
     return `
               <li class="post">
           <div class="post-header" data-user-id="${item.user.id}">
@@ -23,8 +30,9 @@ export function renderPostsPageComponent({ appEl }) {
             <img class="post-image" src="${item.imageUrl}">
           </div>
           <div class="post-likes">
-            <button data-post-id="${item.id}" class="like-button">
-              <img src="./assets/images/like-active.svg">
+            <button data-post-id="${item.id}" data-index = "${index}" class="like-button">
+            ${item.isLiked ? `<img src="./assets/images/like-active.svg">` : `<img src="./assets/images/like-not-active.svg">`}
+              
             </button>
             <p class="post-likes-text">
               Нравится: <strong>${item.likes.length}</strong>
@@ -35,7 +43,7 @@ export function renderPostsPageComponent({ appEl }) {
             ${item.description}
           </p>
           <p class="post-date">
-            ${new Date(item.createdAt)}
+            ${dataFormat(item.createdAt)}
           </p>
           </li>`
   }).join("");
@@ -59,6 +67,7 @@ export function renderPostsPageComponent({ appEl }) {
       goToPage(USER_POSTS_PAGE, {
         userId: userEl.dataset.userId,
       });
-    });
+    })
   }
+  userLike(posts);
 }

@@ -1,6 +1,7 @@
 
 import { renderUploadImageComponent } from "./upload-image-component.js";
 import { renderHeaderComponent } from "./header-component.js";
+import { protectionHtml } from "../helpers.js";
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   const render = () => {
@@ -24,16 +25,13 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
                   <button class="button" id="add-button">Добавить</button>
                   </div>
                 </div>
-      </div>`
-  ;
+      </div>`;
 
     appEl.innerHTML = appHtml;
 
-    
     const setError = (message) => {
       appEl.querySelector(".form-error").textContent = message;
     };
-
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
     });
@@ -48,15 +46,14 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
         },
       });
     }
-// ____________________________________________________________
+  
     document.getElementById("add-button").addEventListener("click", () => {
       const textPost = document.getElementById('textPost').value;
       onAddPostClick({
-        description: textPost,
+        description: protectionHtml(textPost),
         imageUrl: postImageUrl,
       });
     });
   };
-
   render();
 }
