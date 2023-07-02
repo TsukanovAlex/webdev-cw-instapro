@@ -5,8 +5,7 @@ import { renderHeaderComponent } from "./header-component.js";
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   const render = () => {
     let postImageUrl = '';
-
-    // TODO: Реализовать страницу добавления поста
+    // Реализована страницу добавления поста
     const appHtml = `
     <div class="page-container">
         <div class="header-container"></div>
@@ -16,19 +15,11 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
                 </h3>
                 <div class="form-inputs">
                 <div class="upload-image-container">
-                <label class="file-upload-label secondary-button">
-                <input
-                  type="file"
-                  class="file-upload-input"
-                  style="display:none"
-                />
-                <p id="photoSelection">Выберите фото</p>
-            </label>
             </div>
-                <div>
+                <label>
                   Описание фотографии
-                  <textarea class="input textarea" rows="5" id="postTextInput" value =''></textarea>
-                </div>
+                  <textarea class="input textarea" rows="5" id="textPost"></textarea>
+                </label>
                   <div class="form-error"></div>
                   <button class="button" id="add-button">Добавить</button>
                   </div>
@@ -38,9 +29,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
     appEl.innerHTML = appHtml;
 
-    const addPostButton = document.getElementById('add-button');
-
-// __________________________________________________
+    
     const setError = (message) => {
       appEl.querySelector(".form-error").textContent = message;
     };
@@ -60,24 +49,12 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       });
     }
 // ____________________________________________________________
-
-
     document.getElementById("add-button").addEventListener("click", () => {
-      const postTextInputEl = document.getElementById('postTextInput').value;
-      // const photoSelectionEl = document.getElementById('photoSelection');
-//       if (!postImageUrl){
-//         alert('Загрузи фотку')
-// return
-//       }
-//       if (!postTextInputEl){
-//         alert('Напишите описание фотографии')
-// return
-//       }
+      const textPost = document.getElementById('textPost').value;
       onAddPostClick({
-        description: postTextInputEl,
+        description: textPost,
         imageUrl: postImageUrl,
-      })
-
+      });
     });
   };
 
