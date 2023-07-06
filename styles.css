@@ -25,6 +25,10 @@
 		transform: scale(1);
 	}
 }
+.center {
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
+}
 
 .page-container {
   padding: 0 20px;

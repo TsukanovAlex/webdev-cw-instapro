@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
-import { userLike } from "../helpers.js";
+import { userLike, dataFormat } from "../helpers.js";
 
 
 export function renderUserPostPageComponent({ appEl }) {
@@ -9,7 +9,7 @@ export function renderUserPostPageComponent({ appEl }) {
     console.log("Актуальный список постов:", posts);
 
     // Функция разметки страницы постов из API
-    const postsHtml = posts.map((item) => {
+    const postsHtml = posts.map((item, index) => {
         return `
               <li class="post">
           <div class="post-header" data-user-id="${item.user.id}">

@@ -49,7 +49,7 @@ export function renderPostsPageComponent({ appEl }) {
   }).join("");
 
   const appHtml = `
-              <div class="page-container">
+              <div class="page-container center">
                 <div class="header-container"></div>
                 <ul class="posts">
                   ${postsHtml}
